@@ -186,8 +186,10 @@ class SatelliteScheduler:
         
         # Use GLPK as default solver
         if solver is None:
-            solver = pulp.GLPK_CMD(path=r'C:\Users\USER\Documents\GitHub\LinearIntegerOptimization\Satellite-Observation-Project\glpk-4.65\w64\glpsol.exe',msg=1, timeLimit=time_limit)
-        
+            #solver = pulp.GLPK_CMD(path=r'C:\Users\USER\Documents\GitHub\LinearIntegerOptimization\Satellite-Observation-Project\glpk-4.65\w64\glpsol.exe',msg=1, timeLimit=time_limit)
+            solver = pulp.PULP_CBC_CMD(msg=False, timeLimit=300)
+            self.model.solve(solver)
+
         print("Solving MILP model...")
         self.model.solve(solver)
         
