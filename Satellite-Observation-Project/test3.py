@@ -63,11 +63,12 @@ class SatelliteScheduler:
         observations = []
         obs_id = 0
         
-        for satellite in self.satellites:
-            for target in self.targets:
+        for satellite in self.satellites: # για καθέ δορυφόρο
+            for target in self.targets: # για κάθε στόχο
                 # Generate multiple opportunities per target-satellite pair
-                for hour in range(0, self.time_horizon, 2):
-                    # Simulate orbital mechanics with some randomness
+                for hour in range(0, self.time_horizon, 2): # κάθε 2 ώρες
+                    # Simulate orbital mechanics with some randomness - δορυφόρος σε τροχιά
+                    # Assume visibility every 2 hours with some random variation
                     if random.random() < 0.3:  # 30% chance of visibility
                         start = start_time + timedelta(hours=hour, 
                                                      minutes=random.randint(0, 119))
