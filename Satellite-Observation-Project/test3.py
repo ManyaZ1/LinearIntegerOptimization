@@ -8,18 +8,18 @@ from typing import List, Dict, Tuple, Optional
 import json
 
 class Target:
-    """Represents an observation target"""
+    """Represents an observation target - στόχος παρατήρησης"""
     def __init__(self, id: int, name: str, lat: float, lon: float, 
                  priority: float, min_elevation: float = 30.0):
         self.id = id
         self.name = name
-        self.lat = lat
-        self.lon = lon
+        self.lat = lat # latitude δηλαδ΄ή Γεωγραφικό πλάτος -90° (Νότιος Πόλος) έως +90° (Βόρειος Πόλος)
+        self.lon = lon # longitude δηλαδή Γεωγραφικό μήκος -180° (Δυτικό Πόλο) έως +180° (Ανατολικό Πόλο)
         self.priority = priority
-        self.min_elevation = min_elevation
+        self.min_elevation = min_elevation # ελάχιστη γωνία ύψους για παρατήρηση (σε μοίρες) - συνήθως 30° ή 40°
 
 class Satellite:
-    """Represents a satellite with observation capabilities"""
+    """Represents a satellite with observation capabilities - δορυφόρος με δυνατότητες παρατήρησης"""
     def __init__(self, id: int, name: str, memory_capacity: float, 
                  power_capacity: float, data_rate: float, setup_time: float = 2.0):
         self.id = id
@@ -30,13 +30,13 @@ class Satellite:
         self.setup_time = setup_time            # minutes (NEW)
 
 class Observation:
-    """Represents a potential observation opportunity"""
+    """Represents a potential observation opportunity - υποψήφια παρατήρηση κάποιου στόχου"""
     def __init__(self, target_id: int, satellite_id: int, start_time: datetime,
                  end_time: datetime, elevation: float, data_volume: float,
                  power_required: float):
         self.target_id = target_id
         self.satellite_id = satellite_id
-        self.start_time = start_time
+        self.start_time = start_time # έναρξη παρατήρησης
         self.end_time = end_time
         self.duration = (end_time - start_time).total_seconds() / 60  # minutes
         self.elevation = elevation
