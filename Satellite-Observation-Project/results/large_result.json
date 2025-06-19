@@ -1,0 +1,87 @@
+{
+  "solution": {
+    "status": "Optimal",
+    "objective_value": 44.1891201873962,
+    "selected_observations": [
+      12,
+      35,
+      52,
+      56,
+      66,
+      69,
+      76
+    ]
+  },
+  "analysis": {
+    "satellite_stats": {
+      "Sentinel-1A": {
+        "observations": 1,
+        "total_data_gb": 0.002083333333333333,
+        "total_time_min": 10.0,
+        "total_time_with_setup_min": 10.0,
+        "setup_time_overhead_min": 0.0,
+        "memory_utilization": 0.02083333333333333
+      },
+      "Landsat-9": {
+        "observations": 3,
+        "total_data_gb": 0.0059375,
+        "total_time_min": 19.0,
+        "total_time_with_setup_min": 25.0,
+        "setup_time_overhead_min": 6.0,
+        "memory_utilization": 0.03958333333333333
+      },
+      "WorldView-3": {
+        "observations": 3,
+        "total_data_gb": 0.006500000000000001,
+        "total_time_min": 26.0,
+        "total_time_with_setup_min": 29.0,
+        "setup_time_overhead_min": 3.0,
+        "memory_utilization": 0.08125
+      }
+    },
+    "target_coverage": {
+      "Forest_Fire_California": {
+        "covered": true,
+        "priority": 0.9,
+        "observations": 1
+      },
+      "Crop_Monitoring_Iowa": {
+        "covered": true,
+        "priority": 0.6,
+        "observations": 1
+      },
+      "Urban_Growth_Tokyo": {
+        "covered": true,
+        "priority": 0.7,
+        "observations": 1
+      },
+      "Flood_Assessment_Bangladesh": {
+        "covered": true,
+        "priority": 0.95,
+        "observations": 1
+      },
+      "Ice_Monitoring_Arctic": {
+        "covered": true,
+        "priority": 0.8,
+        "observations": 1
+      },
+      "Desert_Expansion_Sahara": {
+        "covered": true,
+        "priority": 0.5,
+        "observations": 1
+      },
+      "Volcano_Activity_Italy": {
+        "covered": true,
+        "priority": 0.85,
+        "observations": 1
+      }
+    },
+    "conflict_stats": {
+      "avg_conflict_degree": 0.0,
+      "max_conflict_degree": 0,
+      "min_conflict_degree": 0
+    },
+    "total_observations": 7,
+    "total_data_volume": 0.014520833333333332
+  }
+}

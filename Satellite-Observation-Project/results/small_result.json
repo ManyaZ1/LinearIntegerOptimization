@@ -1,0 +1,40 @@
+{
+  "solution": {
+    "status": "Optimal",
+    "objective_value": 2.0983276812663294,
+    "selected_observations": [
+      1
+    ]
+  },
+  "analysis": {
+    "satellite_stats": {
+      "NanoSat-1": {
+        "observations": 1,
+        "total_data_gb": 0.0005208333333333332,
+        "total_time_min": 5.0,
+        "total_time_with_setup_min": 5.0,
+        "setup_time_overhead_min": 0.0,
+        "memory_utilization": 0.010416666666666664
+      }
+    },
+    "target_coverage": {
+      "Target_A_small": {
+        "covered": false,
+        "priority": 0.8,
+        "observations": 0
+      },
+      "Target_B_small": {
+        "covered": true,
+        "priority": 0.6,
+        "observations": 1
+      }
+    },
+    "conflict_stats": {
+      "avg_conflict_degree": 0.0,
+      "max_conflict_degree": 0,
+      "min_conflict_degree": 0
+    },
+    "total_observations": 1,
+    "total_data_volume": 0.0005208333333333332
+  }
+}

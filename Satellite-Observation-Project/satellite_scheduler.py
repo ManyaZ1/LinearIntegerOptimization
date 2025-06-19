@@ -6,6 +6,8 @@ from datetime import datetime, timedelta
 import random
 from typing import List, Dict, Tuple, Optional
 import json
+import os
+from time import time
 
 class Target:
     """Represents an observation target - στόχος παρατήρησης"""
@@ -389,7 +391,7 @@ class SatelliteScheduler:
             print("Schedule validation: All setup time constraints satisfied ✓")
             return True
     
-    def visualize_schedule(self, figsize=(15, 12)):
+    def visualize_schedule(self, figname="enhanced_satellite_schedule.png",figsize=(15, 12)):
         """Create an enhanced Gantt chart visualization of the schedule"""
         if not self.solution or self.solution['status'] != 'Optimal':
             print("No optimal solution to visualize")
@@ -495,12 +497,17 @@ class SatelliteScheduler:
         plot_dir = os.path.join(script_dir, 'plots')
         os.makedirs(plot_dir, exist_ok=True)
         
-        plot_path = os.path.join(plot_dir, 'enhanced_satellite_schedule.png')
+        plot_path = os.path.join(plot_dir, figname)
         fig.savefig(plot_path, dpi=300, bbox_inches='tight')
         print(f"Enhanced schedule visualization saved as '{plot_path}'")
         
         return fig
 
+
+########## create scenarios
+
+
+# example scenario
 def create_example_scenario():
     """Create an example scenario for testing with setup times"""
     
@@ -524,14 +531,169 @@ def create_example_scenario():
     
     return satellites, targets
 
+
+####### Run scenarios from JSON file
+def run_scenarios_from_json(json_path: str, output_dir: str = "results"):
+    """
+    Load multiple scenarios from a JSON file, solve each one, and write results back to disk.
+
+    Results:
+      └─ <output_dir>/
+           ├─ small_result.json
+           ├─ medium_result.json
+           ├─ large_result.json
+           └─ all_results.json   (aggregated)
+    """
+    
+    with open(json_path, "r") as f:
+        payload = json.load(f)
+
+    os.makedirs(output_dir, exist_ok=True)
+    summary = {}
+
+    for scenario in payload["scenarios"]:
+        # --- build objects --------------------------------------------------
+        satellites = [Satellite(**s) for s in scenario["satellites"]]
+        targets    = [Target(**t)    for t in scenario["targets"]]
+
+        scheduler = SatelliteScheduler(
+            satellites,
+            targets,
+            time_horizon      = scenario.get("time_horizon", 24),
+            use_conflict_degree = scenario.get("use_conflict_degree", True),
+        )
+
+        # --- end-to-end solve ----------------------------------------------
+        start = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        scheduler.generate_observation_opportunities(start)
+        scheduler.build_milp_model()
+        sol = scheduler.solve()
+
+        analysis = (
+            scheduler.analyze_solution()
+            if sol and sol["status"] == "Optimal" else None
+        )
+
+        # --- persist --------------------------------------------------------
+        one_result = {"solution": sol, "analysis": analysis}
+        fname = os.path.join(output_dir, f"{scenario['name']}_result.json")
+        with open(fname, "w") as fh:
+            json.dump(one_result, fh, default=str, indent=2)
+
+        summary[scenario["name"]] = one_result
+        print(f"[✓] {scenario['name']} → {fname}")
+
+    # master file
+    with open(os.path.join(output_dir, "all_results.json"), "w") as fh:
+        json.dump(summary, fh, default=str, indent=2)
+
+    return summary
+
+def extract_scenario_objects(json_path: str, scenario_name: str):
+    """
+    Load a scenario by name from a JSON file and return (satellites, targets).
+    """
+    with open(json_path, "r") as f:
+        payload = json.load(f)
+
+    # Find the scenario by name
+    scenario = next((s for s in payload["scenarios"] if s["name"] == scenario_name), None)
+    if not scenario:
+        raise ValueError(f"Scenario '{scenario_name}' not found in {json_path}")
+
+    satellites = [Satellite(**s) for s in scenario["satellites"]]
+    targets = [Target(**t) for t in scenario["targets"]]
+    
+    return satellites, targets
+
+########### FLEXIBLE GENERATION 
+
+def generate_scenario(num_sats: int, num_targets: int, name: str = "custom", time_horizon: int = 24):
+    """
+    Generate a synthetic satellite-target scenario.
+
+    Args:
+        num_sats (int): Number of satellites
+        num_targets (int): Number of targets
+        name (str): Scenario name
+        time_horizon (int): Scheduling time window (default: 24)
+
+    Returns:
+        dict: JSON-ready scenario dictionary
+    """
+    scenario = {
+        "name": name,
+        "time_horizon": time_horizon,
+        "use_conflict_degree": True,
+        "satellites": [],
+        "targets": []
+    }
+
+    for i in range(1, num_sats + 1):
+        scenario["satellites"].append({
+            "id": i,
+            "name": f"Sat-{i}",
+            "memory_capacity": round(random.uniform(8, 20), 1),
+            "power_capacity": random.randint(150, 250),
+            "data_rate": random.randint(80, 180),
+            "setup_time": round(random.uniform(1.0, 4.0), 1)
+        })
+
+    for j in range(1, num_targets + 1):
+        scenario["targets"].append({
+            "id": j,
+            "name": f"Target_{j}",
+            "lat": round(random.uniform(-90, 90), 4),
+            "lon": round(random.uniform(-180, 180), 4),
+            "priority": round(random.uniform(0.5, 1.0), 2)
+        })
+
+    return scenario
+
+
+### Scenario Picker Function => returns satellites, targets, and scenario name from user input
+# Η συνάρτηση αυτή επιτρέπει στον χρήστη να επιλέξει ένα σενάριο για εκτέλεση 
+def scenario_picker(x :int):
+    if x == "1":
+        satellites, targets = create_example_scenario()
+        return satellites, targets, "example_scenario"
+    elif x == "2":
+        cur_dir= os.path.dirname(os.path.abspath(__file__))
+        json_path = os.path.join(cur_dir, "data","scenarios.json")
+        size_in= input("Chose scenario size: \n1. small\n2. medium\n3. large\n")
+        if size_in not in ["small", "medium", "large"]:
+            print("Invalid size choice. Exiting.") 
+            exit(1)
+        satellites, targets = extract_scenario_objects(json_path, f"{size_in}")
+        return satellites, targets, size_in
+    elif x == "3":
+        size_in = input("Enter scenario name (e.g., 'custom_scenario') or leave empty for default: ")
+        if not size_in:
+            size_in = "custom_scenario"
+        num_sats = int(input("Enter number of satellites (e.g., 3): "))
+        num_targets = int(input("Enter number of targets (e.g., 5): "))
+        time_horizon = int(input("Enter scheduling time horizon in hours (default 24): ") or 24)
+        
+        scenario = generate_scenario(num_sats, num_targets, name=size_in, time_horizon=time_horizon)
+        satellites = [Satellite(**s) for s in scenario["satellites"]]
+        targets = [Target(**t) for t in scenario["targets"]]
+        
+        return satellites, targets, "custom"+size_in
+    else:
+        print("Invalid choice. Exiting.")
+        #exit 
+        exit(1)
+        return; 
+
 def main():
     """Main execution function with enhanced features"""
     print("=== Enhanced Satellite Observation Scheduling using MILP ===")
     print("Features: Setup Time Constraints + Conflict Degree Weighting\n")
     
-    # Create example scenario
-    satellites, targets = create_example_scenario()
-    
+    # Create scenario
+    x=input("Chose mode: \n1. Run example scenario\n2. Run scenarios from JSON file PREMADE\n3. Generate custom scenario\n")
+    satellites, targets, scenarioname = scenario_picker(x)
+
     print(f"Created scenario with {len(satellites)} satellites and {len(targets)} targets")
     for sat in satellites:
         print(f"  {sat.name}: Setup time = {sat.setup_time} minutes")
@@ -546,8 +708,11 @@ def main():
     
     # Build and solve enhanced MILP model
     scheduler.build_milp_model()
+    start_timer = time()
     solution = scheduler.solve()
-    
+    end_timer = time()
+    elapsed_sec = end_timer - start_timer
+    print(f"\n[**TIMER**] MILP solve time: {elapsed_sec:.2f} seconds")
     if solution and solution['status'] == 'Optimal':
         # Validate constraints
         scheduler.validate_schedule_constraints()
@@ -581,7 +746,8 @@ def main():
             print(f"  {status} {target_name} (Priority: {coverage['priority']:.1f})")
         
         # Visualize results
-        scheduler.visualize_schedule()
+        scheduler.visualize_schedule(figname=f"satellite_schedule_{scenarioname}.png")
+        
     
     return scheduler
 
