@@ -1,0 +1,68 @@
+{
+  "name": "s1",
+  "time_horizon": 24,
+  "use_conflict_degree": true,
+  "satellites": [
+    {
+      "id": 1,
+      "name": "Sat-1",
+      "memory_capacity": 15.7,
+      "power_capacity": 153,
+      "data_rate": 174,
+      "setup_time": 1.8
+    },
+    {
+      "id": 2,
+      "name": "Sat-2",
+      "memory_capacity": 10.7,
+      "power_capacity": 244,
+      "data_rate": 93,
+      "setup_time": 3.0
+    },
+    {
+      "id": 3,
+      "name": "Sat-3",
+      "memory_capacity": 18.7,
+      "power_capacity": 161,
+      "data_rate": 155,
+      "setup_time": 2.3
+    }
+  ],
+  "targets": [
+    {
+      "id": 1,
+      "name": "Target_1",
+      "lat": -84.6365,
+      "lon": -101.2903,
+      "priority": 0.75
+    },
+    {
+      "id": 2,
+      "name": "Target_2",
+      "lat": -85.2235,
+      "lon": -108.4184,
+      "priority": 0.82
+    },
+    {
+      "id": 3,
+      "name": "Target_3",
+      "lat": 8.0895,
+      "lon": -100.6414,
+      "priority": 0.79
+    },
+    {
+      "id": 4,
+      "name": "Target_4",
+      "lat": 55.6975,
+      "lon": -177.6604,
+      "priority": 0.9
+    },
+    {
+      "id": 5,
+      "name": "Target_5",
+      "lat": 35.6651,
+      "lon": -57.5098,
+      "priority": 0.58
+    }
+  ]
+}

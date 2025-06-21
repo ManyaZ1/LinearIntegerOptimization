@@ -29,7 +29,7 @@ class Satellite:
         self.memory_capacity = memory_capacity  # GB
         self.power_capacity = power_capacity    # Watts
         self.data_rate = data_rate              # Mbps
-        self.setup_time = setup_time            # minutes (NEW)
+        self.setup_time = setup_time            # minutes 
 
 class Observation:
     """Represents a potential observation opportunity - υποψήφια παρατήρηση κάποιου στόχου"""
@@ -533,63 +533,17 @@ def create_example_scenario():
 
 
 ####### Run scenarios from JSON file
-def run_scenarios_from_json(json_path: str, output_dir: str = "results"):
-    """
-    Load multiple scenarios from a JSON file, solve each one, and write results back to disk.
-
-    Results:
-      └─ <output_dir>/
-           ├─ small_result.json
-           ├─ medium_result.json
-           ├─ large_result.json
-           └─ all_results.json   (aggregated)
-    """
-    
+def extract_scenario_from_json(json_path: str, output_dir: str = "results"):
     with open(json_path, "r") as f:
-        payload = json.load(f)
+        scenario = json.load(f)
 
     os.makedirs(output_dir, exist_ok=True)
     summary = {}
+    satellites = [Satellite(**s) for s in scenario["satellites"]]
+    targets    = [Target(**t)    for t in scenario["targets"]]
 
-    for scenario in payload["scenarios"]:
-        # --- build objects --------------------------------------------------
-        satellites = [Satellite(**s) for s in scenario["satellites"]]
-        targets    = [Target(**t)    for t in scenario["targets"]]
+    return satellites, targets, scenario["name"]
 
-        scheduler = SatelliteScheduler(
-            satellites,
-            targets,
-            time_horizon      = scenario.get("time_horizon", 24),
-            use_conflict_degree = scenario.get("use_conflict_degree", True),
-        )
-
-        # --- end-to-end solve ----------------------------------------------
-        start = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
-        scheduler.generate_observation_opportunities(start)
-        scheduler.build_milp_model()
-        sol = scheduler.solve()
-
-        analysis = (
-            scheduler.analyze_solution()
-            if sol and sol["status"] == "Optimal" else None
-        )
-
-        # --- persist --------------------------------------------------------
-        one_result = {"solution": sol, "analysis": analysis}
-        fname = os.path.join(output_dir, f"{scenario['name']}_result.json")
-        with open(fname, "w") as fh:
-            json.dump(one_result, fh, default=str, indent=2)
-
-        summary[scenario["name"]] = one_result
-        print(f"[✓] {scenario['name']} → {fname}")
-
-    # master file
-    with open(os.path.join(output_dir, "all_results.json"), "w") as fh:
-        json.dump(summary, fh, default=str, indent=2)
-
-    return summary
-
-def extract_scenario_objects(json_path: str, scenario_name: str):
     """
     Load a scenario by name from a JSON file and return (satellites, targets).
     """
@@ -659,26 +613,29 @@ def scenario_picker(x :int):
         return satellites, targets, "example_scenario"
     elif x == "2":
         cur_dir= os.path.dirname(os.path.abspath(__file__))
-        json_path = os.path.join(cur_dir, "data","scenarios.json")
-        size_in= input("Chose scenario size: \n1. small\n2. medium\n3. large\n")
-        if size_in not in ["small", "medium", "large"]:
-            print("Invalid size choice. Exiting.") 
-            exit(1)
-        satellites, targets = extract_scenario_objects(json_path, f"{size_in}")
-        return satellites, targets, size_in
+        json_path = os.path.join(cur_dir, "data","s1.json")
+        json_path=input(f"Enter path to JSON file with scenarios (default: {json_path}): ") or json_path
+        satellites, targets, name=extract_scenario_from_json(json_path)
+        return satellites, targets,name
     elif x == "3":
-        size_in = input("Enter scenario name (e.g., 'custom_scenario') or leave empty for default: ")
-        if not size_in:
-            size_in = "custom_scenario"
+        in_name = input("Enter scenario name (e.g., 'custom_scenario') or leave empty for default: ")
+        if not in_name:
+            in_name = "custom_scenario"
         num_sats = int(input("Enter number of satellites (e.g., 3): "))
         num_targets = int(input("Enter number of targets (e.g., 5): "))
         time_horizon = int(input("Enter scheduling time horizon in hours (default 24): ") or 24)
-        
-        scenario = generate_scenario(num_sats, num_targets, name=size_in, time_horizon=time_horizon)
+        print(f"Generating custom scenario '{in_name}' with {num_sats} satellites and {num_targets} targets...")
+        scenario = generate_scenario(num_sats, num_targets, name=in_name, time_horizon=time_horizon)
+        # get cur dir
+        cur_dir = os.path.dirname(os.path.abspath(__file__))
+        json_path = os.path.join(cur_dir, "data", f"{in_name}.json")
+        # save scenario to json file
+        with open(json_path, "w") as f:
+            json.dump(scenario, f, indent=2, default=str)
         satellites = [Satellite(**s) for s in scenario["satellites"]]
         targets = [Target(**t) for t in scenario["targets"]]
         
-        return satellites, targets, "custom"+size_in
+        return satellites, targets, "custom"+in_name
     else:
         print("Invalid choice. Exiting.")
         #exit 
