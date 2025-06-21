@@ -15,3 +15,5 @@ numpy
 pandas
 matplotlib
 ```
+
+presentation: https://www.canva.com/design/DAGq4lfpADc/cWx-XriyIL8_jssNBxnNyg/view?utm_content=DAGq4lfpADc&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h583b51e68c
