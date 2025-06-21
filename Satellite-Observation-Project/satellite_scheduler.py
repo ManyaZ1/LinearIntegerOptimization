@@ -149,7 +149,6 @@ class SatelliteScheduler:
     def build_milp_model(self):
         """Build the Mixed Integer Linear Programming model with enhanced constraints"""
         
-        # Create the optimization problem
         self.model = pulp.LpProblem("SatelliteScheduling", pulp.LpMaximize)
         
         # Decision variables: x_ij = 1 if observation i is selected, 0 otherwise
@@ -157,7 +156,7 @@ class SatelliteScheduler:
         for i, obs in enumerate(self.observations):
             x[i] = pulp.LpVariable(f"x_{i}", cat='Binary')
         
-        # Enhanced Objective function with conflict degree weighting
+        # Objective function with conflict degree weighting
         objective = 0
         for i, obs in enumerate(self.observations):
             target = next(t for t in self.targets if t.id == obs.target_id)
@@ -196,7 +195,7 @@ class SatelliteScheduler:
                              f"Memory_Satellite_{satellite.id}"
         
         # Constraint 3: Power capacity constraints per satellite per time window
-        time_windows = self._create_time_windows()
+        time_windows = self._create_time_windows()    # παραθυρα χρόνου για τον έλεγχο ισχύος - 4 ωρες ως default !!!!!!!!!!!!!!!!!!!!!!!!
         for satellite in self.satellites:
             for tw_start, tw_end in time_windows:
                 satellite_obs_in_window = [
@@ -212,7 +211,7 @@ class SatelliteScheduler:
                     self.model += power_constraint <= satellite.power_capacity, \
                                  f"Power_Satellite_{satellite.id}_Window_{tw_start.hour}"
         
-        # Constraint 4: At most one observation per target (optional)
+        # Constraint 4: At most one observation per target (optional - μπορει να αφαιρεθεί)
         for target in self.targets:
             target_obs = [i for i, obs in enumerate(self.observations) 
                          if obs.target_id == target.id]
@@ -220,8 +219,8 @@ class SatelliteScheduler:
                 self.model += pulp.lpSum([x[i] for i in target_obs]) <= 1, \
                              f"OneObsPerTarget_{target.id}"
         
-        # NEW Constraint 5: Setup time sequencing constraints (alternative formulation)
-        # This adds additional constraints to ensure proper sequencing with setup times
+        # Constraint 5: Setup time sequencing constraints 
+        # λαμβάνει υπόψιν του το setup time για παρατηρήσεις στον ίδιο δορυφόρο
         for satellite in self.satellites:
             satellite_obs_indices = [i for i, obs in enumerate(self.observations) 
                                    if obs.satellite_id == satellite.id]
@@ -262,7 +261,7 @@ class SatelliteScheduler:
         
         return windows
     
-    def solve(self, solver=None, time_limit=300):
+    def solve(self, solver=None, time_limit=400):
         """Solve the MILP model"""
         if self.model is None:
             raise ValueError("Model not built. Call build_milp_model() first.")
@@ -511,14 +510,11 @@ class SatelliteScheduler:
 def create_example_scenario():
     """Create an example scenario for testing with setup times"""
     
-    # Create satellites with different setup times
     satellites = [
         Satellite(1, "Sentinel-1A", memory_capacity=10.0, power_capacity=200, data_rate=100, setup_time=2.0),
         Satellite(2, "Landsat-9", memory_capacity=15.0, power_capacity=180, data_rate=150, setup_time=3.0),
-        Satellite(3, "WorldView-3", memory_capacity=8.0, power_capacity=160, data_rate=120, setup_time=1.5)
-    ]
+        Satellite(3, "WorldView-3", memory_capacity=8.0, power_capacity=160, data_rate=120, setup_time=1.5) ]
     
-    # Create targets
     targets = [
         Target(1, "Forest_Fire_California", 37.7749, -122.4194, priority=0.9),
         Target(2, "Crop_Monitoring_Iowa", 41.5868, -93.6250, priority=0.6),
@@ -526,8 +522,8 @@ def create_example_scenario():
         Target(4, "Flood_Assessment_Bangladesh", 23.6850, 90.3563, priority=0.95),
         Target(5, "Ice_Monitoring_Arctic", 71.0, -8.0, priority=0.8),
         Target(6, "Desert_Expansion_Sahara", 23.0, 8.0, priority=0.5),
-        Target(7, "Volcano_Activity_Italy", 40.8518, 14.2681, priority=0.85)
-    ]
+        Target(7, "Volcano_Activity_Italy", 40.8518, 14.2681, priority=0.85) ]
+    
     
     return satellites, targets
 
@@ -543,22 +539,6 @@ def extract_scenario_from_json(json_path: str, output_dir: str = "results"):
     targets    = [Target(**t)    for t in scenario["targets"]]
 
     return satellites, targets, scenario["name"]
-
-    """
-    Load a scenario by name from a JSON file and return (satellites, targets).
-    """
-    with open(json_path, "r") as f:
-        payload = json.load(f)
-
-    # Find the scenario by name
-    scenario = next((s for s in payload["scenarios"] if s["name"] == scenario_name), None)
-    if not scenario:
-        raise ValueError(f"Scenario '{scenario_name}' not found in {json_path}")
-
-    satellites = [Satellite(**s) for s in scenario["satellites"]]
-    targets = [Target(**t) for t in scenario["targets"]]
-    
-    return satellites, targets
 
 ########### FLEXIBLE GENERATION 
 
@@ -601,7 +581,13 @@ def generate_scenario(num_sats: int, num_targets: int, name: str = "custom", tim
             "lon": round(random.uniform(-180, 180), 4),
             "priority": round(random.uniform(0.5, 1.0), 2)
         })
-
+    # Save scenario to JSON file
+    cur_dir = os.path.dirname(os.path.abspath(__file__))
+    json_path = os.path.join(cur_dir, "data", f"{name}.json")
+    with open(json_path, "w") as f:
+        json.dump(scenario, f, indent=2, default=str)
+    print(f"Generated scenario '{name}' with {num_sats} satellites and {num_targets} targets")
+    print(f"Scenario saved to {json_path}")
     return scenario
 
 
@@ -656,7 +642,12 @@ def main():
         print(f"  {sat.name}: Setup time = {sat.setup_time} minutes")
     
     # Initialize enhanced scheduler
-    scheduler = SatelliteScheduler(satellites, targets, time_horizon=24, use_conflict_degree=True)
+    use_conflict_degree= input("Use conflict degree weighting? (yes/no, default: yes): ").strip().lower()
+    if use_conflict_degree in ["yes", "y", ""]:
+        use_conflict_degree = True
+    else:
+        use_conflict_degree = False
+    scheduler = SatelliteScheduler(satellites, targets, time_horizon=24, use_conflict_degree=use_conflict_degree)
     
     # Generate observation opportunities
     start_time = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)

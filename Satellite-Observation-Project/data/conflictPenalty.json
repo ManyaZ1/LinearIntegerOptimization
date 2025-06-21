@@ -1,0 +1,725 @@
+{
+  "name": "conflictPenalty",
+  "time_horizon": 6,
+  "use_conflict_degree": true,
+  "satellites": [
+    {
+      "id": 1,
+      "name": "Sat-1",
+      "memory_capacity": 15.7,
+      "power_capacity": 153,
+      "data_rate": 174,
+      "setup_time": 1.8
+    },
+    {
+      "id": 2,
+      "name": "Sat-2",
+      "memory_capacity": 10.7,
+      "power_capacity": 244,
+      "data_rate": 93,
+      "setup_time": 3.0
+    }
+  ],
+  "targets": [
+    {
+      "id": 1,
+      "name": "Target_1",
+      "lat": 70.5923,
+      "lon": -148.702,
+      "priority": 0.71
+    },
+    {
+      "id": 2,
+      "name": "Target_2",
+      "lat": -84.6365,
+      "lon": -101.2903,
+      "priority": 0.75
+    },
+    {
+      "id": 3,
+      "name": "Target_3",
+      "lat": -85.2235,
+      "lon": -108.4184,
+      "priority": 0.82
+    },
+    {
+      "id": 4,
+      "name": "Target_4",
+      "lat": 8.0895,
+      "lon": -100.6414,
+      "priority": 0.79
+    },
+    {
+      "id": 5,
+      "name": "Target_5",
+      "lat": 55.6975,
+      "lon": -177.6604,
+      "priority": 0.9
+    },
+    {
+      "id": 6,
+      "name": "Target_6",
+      "lat": 35.6651,
+      "lon": -57.5098,
+      "priority": 0.58
+    },
+    {
+      "id": 7,
+      "name": "Target_7",
+      "lat": 82.2984,
+      "lon": -58.826,
+      "priority": 0.55
+    },
+    {
+      "id": 8,
+      "name": "Target_8",
+      "lat": -72.5911,
+      "lon": 125.098,
+      "priority": 0.8
+    },
+    {
+      "id": 9,
+      "name": "Target_9",
+      "lat": 55.2831,
+      "lon": 82.7034,
+      "priority": 0.77
+    },
+    {
+      "id": 10,
+      "name": "Target_10",
+      "lat": 85.1608,
+      "lon": -43.7276,
+      "priority": 0.78
+    },
+    {
+      "id": 11,
+      "name": "Target_11",
+      "lat": 59.2928,
+      "lon": 42.6671,
+      "priority": 0.93
+    },
+    {
+      "id": 12,
+      "name": "Target_12",
+      "lat": 13.9234,
+      "lon": 73.6459,
+      "priority": 0.52
+    },
+    {
+      "id": 13,
+      "name": "Target_13",
+      "lat": -48.9783,
+      "lon": -75.8203,
+      "priority": 0.54
+    },
+    {
+      "id": 14,
+      "name": "Target_14",
+      "lat": -48.0976,
+      "lon": -143.6395,
+      "priority": 0.64
+    },
+    {
+      "id": 15,
+      "name": "Target_15",
+      "lat": 24.4232,
+      "lon": -48.6604,
+      "priority": 0.69
+    },
+    {
+      "id": 16,
+      "name": "Target_16",
+      "lat": -52.2887,
+      "lon": -83.888,
+      "priority": 0.97
+    },
+    {
+      "id": 17,
+      "name": "Target_17",
+      "lat": 26.6464,
+      "lon": 39.2872,
+      "priority": 0.59
+    },
+    {
+      "id": 18,
+      "name": "Target_18",
+      "lat": 41.2428,
+      "lon": -121.1751,
+      "priority": 0.69
+    },
+    {
+      "id": 19,
+      "name": "Target_19",
+      "lat": 88.1142,
+      "lon": 50.3999,
+      "priority": 0.78
+    },
+    {
+      "id": 20,
+      "name": "Target_20",
+      "lat": 33.2306,
+      "lon": 123.4267,
+      "priority": 0.89
+    },
+    {
+      "id": 21,
+      "name": "Target_21",
+      "lat": -48.7713,
+      "lon": -168.4439,
+      "priority": 0.66
+    },
+    {
+      "id": 22,
+      "name": "Target_22",
+      "lat": -41.8066,
+      "lon": -104.0462,
+      "priority": 0.97
+    },
+    {
+      "id": 23,
+      "name": "Target_23",
+      "lat": 67.7462,
+      "lon": -66.716,
+      "priority": 0.83
+    },
+    {
+      "id": 24,
+      "name": "Target_24",
+      "lat": -18.7863,
+      "lon": 149.2371,
+      "priority": 0.73
+    },
+    {
+      "id": 25,
+      "name": "Target_25",
+      "lat": -42.3216,
+      "lon": -91.2141,
+      "priority": 0.78
+    },
+    {
+      "id": 26,
+      "name": "Target_26",
+      "lat": -42.7065,
+      "lon": 30.451,
+      "priority": 0.95
+    },
+    {
+      "id": 27,
+      "name": "Target_27",
+      "lat": -18.1079,
+      "lon": -101.0445,
+      "priority": 1.0
+    },
+    {
+      "id": 28,
+      "name": "Target_28",
+      "lat": 1.7147,
+      "lon": -147.2726,
+      "priority": 0.52
+    },
+    {
+      "id": 29,
+      "name": "Target_29",
+      "lat": -70.2632,
+      "lon": 45.8806,
+      "priority": 0.9
+    },
+    {
+      "id": 30,
+      "name": "Target_30",
+      "lat": -14.0112,
+      "lon": -157.13,
+      "priority": 0.69
+    },
+    {
+      "id": 31,
+      "name": "Target_31",
+      "lat": 89.3018,
+      "lon": 10.4812,
+      "priority": 0.99
+    },
+    {
+      "id": 32,
+      "name": "Target_32",
+      "lat": 64.9403,
+      "lon": -175.8668,
+      "priority": 0.86
+    },
+    {
+      "id": 33,
+      "name": "Target_33",
+      "lat": 32.7079,
+      "lon": 13.3093,
+      "priority": 0.63
+    },
+    {
+      "id": 34,
+      "name": "Target_34",
+      "lat": 25.3731,
+      "lon": -139.8412,
+      "priority": 0.72
+    },
+    {
+      "id": 35,
+      "name": "Target_35",
+      "lat": -8.3297,
+      "lon": 163.3737,
+      "priority": 0.94
+    },
+    {
+      "id": 36,
+      "name": "Target_36",
+      "lat": -42.59,
+      "lon": 0.211,
+      "priority": 0.59
+    },
+    {
+      "id": 37,
+      "name": "Target_37",
+      "lat": 74.273,
+      "lon": 133.3867,
+      "priority": 0.65
+    },
+    {
+      "id": 38,
+      "name": "Target_38",
+      "lat": 25.0109,
+      "lon": 39.2293,
+      "priority": 0.58
+    },
+    {
+      "id": 39,
+      "name": "Target_39",
+      "lat": 47.2519,
+      "lon": 14.1765,
+      "priority": 0.89
+    },
+    {
+      "id": 40,
+      "name": "Target_40",
+      "lat": 5.4637,
+      "lon": -179.7941,
+      "priority": 0.66
+    },
+    {
+      "id": 41,
+      "name": "Target_41",
+      "lat": -86.4942,
+      "lon": 154.4755,
+      "priority": 0.94
+    },
+    {
+      "id": 42,
+      "name": "Target_42",
+      "lat": 59.6998,
+      "lon": -69.2949,
+      "priority": 0.53
+    },
+    {
+      "id": 43,
+      "name": "Target_43",
+      "lat": 68.0417,
+      "lon": 160.9018,
+      "priority": 0.54
+    },
+    {
+      "id": 44,
+      "name": "Target_44",
+      "lat": -2.5217,
+      "lon": -155.0835,
+      "priority": 0.88
+    },
+    {
+      "id": 45,
+      "name": "Target_45",
+      "lat": 47.8502,
+      "lon": -133.7791,
+      "priority": 0.74
+    },
+    {
+      "id": 46,
+      "name": "Target_46",
+      "lat": 8.9646,
+      "lon": -84.5796,
+      "priority": 0.94
+    },
+    {
+      "id": 47,
+      "name": "Target_47",
+      "lat": -13.8352,
+      "lon": -103.7526,
+      "priority": 0.77
+    },
+    {
+      "id": 48,
+      "name": "Target_48",
+      "lat": 41.3876,
+      "lon": -107.5856,
+      "priority": 0.66
+    },
+    {
+      "id": 49,
+      "name": "Target_49",
+      "lat": 89.1269,
+      "lon": 53.9561,
+      "priority": 0.72
+    },
+    {
+      "id": 50,
+      "name": "Target_50",
+      "lat": 3.1637,
+      "lon": -136.4385,
+      "priority": 0.61
+    },
+    {
+      "id": 51,
+      "name": "Target_51",
+      "lat": -29.1446,
+      "lon": 31.7911,
+      "priority": 0.62
+    },
+    {
+      "id": 52,
+      "name": "Target_52",
+      "lat": -50.3609,
+      "lon": -154.4425,
+      "priority": 0.82
+    },
+    {
+      "id": 53,
+      "name": "Target_53",
+      "lat": -48.7905,
+      "lon": 145.9512,
+      "priority": 0.93
+    },
+    {
+      "id": 54,
+      "name": "Target_54",
+      "lat": -77.2457,
+      "lon": -94.3183,
+      "priority": 0.83
+    },
+    {
+      "id": 55,
+      "name": "Target_55",
+      "lat": -51.4374,
+      "lon": -132.3677,
+      "priority": 0.97
+    },
+    {
+      "id": 56,
+      "name": "Target_56",
+      "lat": 12.7878,
+      "lon": -9.8384,
+      "priority": 0.89
+    },
+    {
+      "id": 57,
+      "name": "Target_57",
+      "lat": 55.3495,
+      "lon": -111.4524,
+      "priority": 0.55
+    },
+    {
+      "id": 58,
+      "name": "Target_58",
+      "lat": -12.4108,
+      "lon": -27.5117,
+      "priority": 0.73
+    },
+    {
+      "id": 59,
+      "name": "Target_59",
+      "lat": 41.2337,
+      "lon": 62.4112,
+      "priority": 0.99
+    },
+    {
+      "id": 60,
+      "name": "Target_60",
+      "lat": -72.2848,
+      "lon": -35.0563,
+      "priority": 0.67
+    },
+    {
+      "id": 61,
+      "name": "Target_61",
+      "lat": 65.1011,
+      "lon": -90.4837,
+      "priority": 0.6
+    },
+    {
+      "id": 62,
+      "name": "Target_62",
+      "lat": -9.2496,
+      "lon": -28.1226,
+      "priority": 0.64
+    },
+    {
+      "id": 63,
+      "name": "Target_63",
+      "lat": -45.0348,
+      "lon": 152.3756,
+      "priority": 0.72
+    },
+    {
+      "id": 64,
+      "name": "Target_64",
+      "lat": 65.0428,
+      "lon": 18.1171,
+      "priority": 0.53
+    },
+    {
+      "id": 65,
+      "name": "Target_65",
+      "lat": 89.8708,
+      "lon": 120.9699,
+      "priority": 0.98
+    },
+    {
+      "id": 66,
+      "name": "Target_66",
+      "lat": 76.7461,
+      "lon": 125.5305,
+      "priority": 0.58
+    },
+    {
+      "id": 67,
+      "name": "Target_67",
+      "lat": -2.5846,
+      "lon": -103.051,
+      "priority": 0.7
+    },
+    {
+      "id": 68,
+      "name": "Target_68",
+      "lat": -79.4456,
+      "lon": -43.5697,
+      "priority": 0.99
+    },
+    {
+      "id": 69,
+      "name": "Target_69",
+      "lat": -42.2634,
+      "lon": 102.2654,
+      "priority": 0.73
+    },
+    {
+      "id": 70,
+      "name": "Target_70",
+      "lat": -13.8587,
+      "lon": 164.6344,
+      "priority": 1.0
+    },
+    {
+      "id": 71,
+      "name": "Target_71",
+      "lat": 10.0383,
+      "lon": 78.627,
+      "priority": 0.58
+    },
+    {
+      "id": 72,
+      "name": "Target_72",
+      "lat": -36.5926,
+      "lon": 168.7354,
+      "priority": 0.79
+    },
+    {
+      "id": 73,
+      "name": "Target_73",
+      "lat": 7.5951,
+      "lon": 89.2712,
+      "priority": 0.53
+    },
+    {
+      "id": 74,
+      "name": "Target_74",
+      "lat": 15.152,
+      "lon": 1.0261,
+      "priority": 0.93
+    },
+    {
+      "id": 75,
+      "name": "Target_75",
+      "lat": -61.6621,
+      "lon": 165.8804,
+      "priority": 0.54
+    },
+    {
+      "id": 76,
+      "name": "Target_76",
+      "lat": -56.5515,
+      "lon": 34.2126,
+      "priority": 0.84
+    },
+    {
+      "id": 77,
+      "name": "Target_77",
+      "lat": -47.6633,
+      "lon": -136.8408,
+      "priority": 0.95
+    },
+    {
+      "id": 78,
+      "name": "Target_78",
+      "lat": -45.6812,
+      "lon": 34.0269,
+      "priority": 0.81
+    },
+    {
+      "id": 79,
+      "name": "Target_79",
+      "lat": -14.5395,
+      "lon": 30.122,
+      "priority": 0.76
+    },
+    {
+      "id": 80,
+      "name": "Target_80",
+      "lat": 78.2471,
+      "lon": -106.4667,
+      "priority": 0.86
+    },
+    {
+      "id": 81,
+      "name": "Target_81",
+      "lat": -47.0365,
+      "lon": -37.5171,
+      "priority": 0.84
+    },
+    {
+      "id": 82,
+      "name": "Target_82",
+      "lat": -36.0005,
+      "lon": -66.1762,
+      "priority": 0.88
+    },
+    {
+      "id": 83,
+      "name": "Target_83",
+      "lat": -76.9422,
+      "lon": -15.0172,
+      "priority": 1.0
+    },
+    {
+      "id": 84,
+      "name": "Target_84",
+      "lat": 89.2974,
+      "lon": -153.6261,
+      "priority": 0.61
+    },
+    {
+      "id": 85,
+      "name": "Target_85",
+      "lat": -42.2639,
+      "lon": 155.9734,
+      "priority": 0.94
+    },
+    {
+      "id": 86,
+      "name": "Target_86",
+      "lat": 68.2686,
+      "lon": -46.9702,
+      "priority": 0.58
+    },
+    {
+      "id": 87,
+      "name": "Target_87",
+      "lat": 60.0741,
+      "lon": 73.2744,
+      "priority": 0.81
+    },
+    {
+      "id": 88,
+      "name": "Target_88",
+      "lat": 87.702,
+      "lon": 55.4315,
+      "priority": 0.5
+    },
+    {
+      "id": 89,
+      "name": "Target_89",
+      "lat": 57.0787,
+      "lon": -72.2236,
+      "priority": 0.83
+    },
+    {
+      "id": 90,
+      "name": "Target_90",
+      "lat": 79.0074,
+      "lon": -131.6552,
+      "priority": 0.56
+    },
+    {
+      "id": 91,
+      "name": "Target_91",
+      "lat": -70.7335,
+      "lon": 19.1605,
+      "priority": 0.64
+    },
+    {
+      "id": 92,
+      "name": "Target_92",
+      "lat": 18.8694,
+      "lon": 78.3404,
+      "priority": 0.6
+    },
+    {
+      "id": 93,
+      "name": "Target_93",
+      "lat": 24.1628,
+      "lon": -84.9658,
+      "priority": 0.74
+    },
+    {
+      "id": 94,
+      "name": "Target_94",
+      "lat": 72.9606,
+      "lon": 124.5973,
+      "priority": 0.55
+    },
+    {
+      "id": 95,
+      "name": "Target_95",
+      "lat": -13.7564,
+      "lon": -80.3951,
+      "priority": 0.5
+    },
+    {
+      "id": 96,
+      "name": "Target_96",
+      "lat": 48.8015,
+      "lon": 49.3608,
+      "priority": 0.63
+    },
+    {
+      "id": 97,
+      "name": "Target_97",
+      "lat": 43.4216,
+      "lon": 18.605,
+      "priority": 0.71
+    },
+    {
+      "id": 98,
+      "name": "Target_98",
+      "lat": -88.2595,
+      "lon": -152.9122,
+      "priority": 0.94
+    },
+    {
+      "id": 99,
+      "name": "Target_99",
+      "lat": 72.7071,
+      "lon": 16.4125,
+      "priority": 0.92
+    },
+    {
+      "id": 100,
+      "name": "Target_100",
+      "lat": 14.8517,
+      "lon": -126.6862,
+      "priority": 0.56
+    }
+  ]
+}
