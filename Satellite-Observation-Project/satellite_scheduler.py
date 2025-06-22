@@ -1,7 +1,6 @@
 import pulp
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd
 from datetime import datetime, timedelta
 import random
 from typing import List, Dict, Tuple, Optional
