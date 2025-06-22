@@ -584,6 +584,9 @@ def generate_scenario(num_sats: int, num_targets: int, name: str = "custom", tim
     # Save scenario to JSON file
     cur_dir = os.path.dirname(os.path.abspath(__file__))
     json_path = os.path.join(cur_dir, "data", f"{name}.json")
+    # create data directory if not exists
+    os.makedirs(os.path.dirname(json_path), exist_ok=True)
+    # write scenario to json file
     with open(json_path, "w") as f:
         json.dump(scenario, f, indent=2, default=str)
     print(f"Generated scenario '{name}' with {num_sats} satellites and {num_targets} targets")
@@ -615,6 +618,8 @@ def scenario_picker(x :int):
         # get cur dir
         cur_dir = os.path.dirname(os.path.abspath(__file__))
         json_path = os.path.join(cur_dir, "data", f"{in_name}.json")
+        # create data directory if not exists
+        os.makedirs(os.path.dirname(json_path), exist_ok=True)
         # save scenario to json file
         with open(json_path, "w") as f:
             json.dump(scenario, f, indent=2, default=str)
