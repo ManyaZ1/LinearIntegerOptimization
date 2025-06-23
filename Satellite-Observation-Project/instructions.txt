@@ -8,7 +8,6 @@ pip install -r requirements.txt
 Απαιτούμενες βιβλιοθήκες:
 pulp
 numpy
-pandas
 matplotlib
 
 
@@ -16,4 +15,4 @@ matplotlib
 
 conda create --name milp python=3.10
 conda activate milp
-pip install pulp matplotlib numpy pandas
+pip install pulp matplotlib numpy 

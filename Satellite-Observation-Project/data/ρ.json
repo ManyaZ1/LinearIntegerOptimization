@@ -1,6 +1,6 @@
 {
-  "name": "conflictFalse",
-  "time_horizon": 24,
+  "name": "\u03c1",
+  "time_horizon": 128,
   "use_conflict_degree": true,
   "satellites": [
     {
@@ -287,97 +287,6 @@
       "lat": 25.0109,
       "lon": 39.2293,
       "priority": 0.58
-    },
-    {
-      "id": 38,
-      "name": "Target_38",
-      "lat": 47.2519,
-      "lon": 14.1765,
-      "priority": 0.89
-    },
-    {
-      "id": 39,
-      "name": "Target_39",
-      "lat": 5.4637,
-      "lon": -179.7941,
-      "priority": 0.66
-    },
-    {
-      "id": 40,
-      "name": "Target_40",
-      "lat": -86.4942,
-      "lon": 154.4755,
-      "priority": 0.94
-    },
-    {
-      "id": 41,
-      "name": "Target_41",
-      "lat": 59.6998,
-      "lon": -69.2949,
-      "priority": 0.53
-    },
-    {
-      "id": 42,
-      "name": "Target_42",
-      "lat": 68.0417,
-      "lon": 160.9018,
-      "priority": 0.54
-    },
-    {
-      "id": 43,
-      "name": "Target_43",
-      "lat": -2.5217,
-      "lon": -155.0835,
-      "priority": 0.88
-    },
-    {
-      "id": 44,
-      "name": "Target_44",
-      "lat": 47.8502,
-      "lon": -133.7791,
-      "priority": 0.74
-    },
-    {
-      "id": 45,
-      "name": "Target_45",
-      "lat": 8.9646,
-      "lon": -84.5796,
-      "priority": 0.94
-    },
-    {
-      "id": 46,
-      "name": "Target_46",
-      "lat": -13.8352,
-      "lon": -103.7526,
-      "priority": 0.77
-    },
-    {
-      "id": 47,
-      "name": "Target_47",
-      "lat": 41.3876,
-      "lon": -107.5856,
-      "priority": 0.66
-    },
-    {
-      "id": 48,
-      "name": "Target_48",
-      "lat": 89.1269,
-      "lon": 53.9561,
-      "priority": 0.72
-    },
-    {
-      "id": 49,
-      "name": "Target_49",
-      "lat": 3.1637,
-      "lon": -136.4385,
-      "priority": 0.61
-    },
-    {
-      "id": 50,
-      "name": "Target_50",
-      "lat": -29.1446,
-      "lon": 31.7911,
-      "priority": 0.62
     }
   ]
 }

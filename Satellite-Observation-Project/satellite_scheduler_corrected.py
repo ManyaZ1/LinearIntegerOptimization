@@ -208,22 +208,6 @@ class SatelliteScheduler:
                     ])
                     constraint_name = f"Power_Satellite_{satellite.id}_Window_{w_idx}"
                     self.model += power_constraint <= satellite.power_capacity, constraint_name
-        # # Constraint 3: Power capacity constraints per satellite per time window
-        # time_windows = self._create_time_windows()    # παραθυρα χρόνου για τον έλεγχο ισχύος - 4 ωρες ως default !!!!!!!!!!!!!!!!!!!!!!!!
-        # for satellite in self.satellites:
-        #     for tw_start, tw_end in time_windows:
-        #         satellite_obs_in_window = [
-        #             i for i, obs in enumerate(self.observations)
-        #             if (obs.satellite_id == satellite.id and 
-        #                 not (obs.end_time <= tw_start or obs.start_time >= tw_end))
-        #         ]
-        #         if satellite_obs_in_window:
-        #             power_constraint = pulp.lpSum([
-        #                 self.observations[i].power_required * x[i] 
-        #                 for i in satellite_obs_in_window
-        #             ])
-        #             self.model += power_constraint <= satellite.power_capacity, \
-        #                          f"Power_Satellite_{satellite.id}_Window_{tw_start.hour}"
         
         # Constraint 4: At most one observation per target (optional - μπορει να αφαιρεθεί)
         for target in self.targets:
