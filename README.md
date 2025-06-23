@@ -12,7 +12,6 @@ pip install -r requirements.txt
 ```
 pulp
 numpy
-pandas
 matplotlib
 ```
 
