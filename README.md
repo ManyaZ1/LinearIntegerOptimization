@@ -1,4 +1,6 @@
-Linear and Integer Optimization course project and exercise sets
+# ECE_GK806 course: Linear and Integer Optimization
+
+course project and exercise sets
 
 Virtual enviroment για το project (optional):
 ```
